@@ -1,11 +1,14 @@
-import { View, Text, Image,TouchableOpacity } from "react-native";
+import { View, Text, Image,TouchableOpacity,Alert } from "react-native";
 import React from "react";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import { FormatDate } from "../../help";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchRemoveStudentInRoom } from "../../store/slices/student";
 
 const StudentInRoom = ({data}) => {
 
+  const dispatch = useDispatch();
 
   const navigation = useNavigation();
 
@@ -13,13 +16,32 @@ const StudentInRoom = ({data}) => {
     navigation.navigate("InfoStudentScreen",{data})
   };
 
+  const handleRemoveInRoom = () => {
+    Alert.alert(
+      "Thông báo",
+      "Bạn có muốn xóa sinh viên khỏi phòng",
+      [
+        { text: "Đồng ý", onPress: () => {
+          dispatch(fetchRemoveStudentInRoom({idSV: data.idSV}))
+        }}
+        ,
+        {
+          text: "Hủy",
+          onPress: () => {},
+          style: "cancel"
+        },
+        
+      ]
+    )
+  }
+
   return (
-    <TouchableOpacity style={styles.container} onPress={handleClick}>
+    <TouchableOpacity style={styles.container} onPress={handleClick} onLongPress={handleRemoveInRoom}>
 
       <View style={styles.boxAvatar}>
         <Image
           style={styles.imgAvatar}
-          source={require("../../assets/images/avatar.png")}
+          source={{uri: data.AnhDaiDien}}
         />
       </View>
       <View style={styles.infoStudent}>

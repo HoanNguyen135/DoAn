@@ -29,17 +29,17 @@ const DrawerContent = () => {
             focus={focus}
           />
           <DrawerItemComponent
-            name={"InfoStudentScreen"}
+            name={"ApplicationStackScreen"}
             setFocus={(value) => setFocus(value)}
             focus={focus}
           />
           <DrawerItemComponent
-            name={"Setting"}
+            name={"ListInfrastructureScreen"}
             setFocus={(value) => setFocus(value)}
             focus={focus}
           />
           <DrawerItemComponent
-            name={"Logout"}
+            name={"LogOut"}
             setFocus={(value) => setFocus(value)}
             focus={focus}
           />

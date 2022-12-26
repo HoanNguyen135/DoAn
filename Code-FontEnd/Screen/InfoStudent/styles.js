@@ -14,11 +14,13 @@ const styles = StyleSheet.create({
     height: 115,
     alignSelf: "center",
     borderRadius: 120,
+    backgroundColor: 'white'
   },
   imgAvatar: {
     width: "100%",
     height: "100%",
     borderRadius: 120,
+    backgroundColor: 'white'
   },
   btnEdit:{
     width: 107,

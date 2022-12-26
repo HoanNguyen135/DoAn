@@ -8,5 +8,14 @@ import ButtonFilter from "./ButtonFilter";
 import Area from "./Area";
 import UserGrid from "./UserGrid";
 import Loading from "./loading";
+import RegisterDorm from "./RegisterDorm";
+import HeaderRightFilter from './HeaderRightFilter'
+import AreaViolation from "./AreaViolation";
+import RoomViolation from "./RoomViolation";
+import ViolationComponent from "./Violation";
+import AreaElectricAndWater from "./AreaElectricAndWater";
+import InfrastructureGrid from "./InfrastrutureComponent";
+import InfrastructureInRoomGrid from "./InfrastrutureInRoomGrid";
+import RepairGrid from "./RepairGrid";
 
-export {Loading,UserGrid,InputText, StudentInRoom, Room, ElectricGrid, WaterGrid,DrawerItemComponent,ButtonFilter,Area };
+export {RepairGrid,InfrastructureInRoomGrid,InfrastructureGrid,AreaElectricAndWater,ViolationComponent,RoomViolation,AreaViolation,HeaderRightFilter,Loading,UserGrid,InputText, StudentInRoom, Room, ElectricGrid, WaterGrid,DrawerItemComponent,ButtonFilter,Area,RegisterDorm };

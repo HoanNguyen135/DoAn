@@ -17,10 +17,12 @@ const styles = StyleSheet.create({
   boxAvatar:{
     width: 73,
     height: 73,
+    borderRadius: 100
   },
   imgAvatar:{
     width: "100%",
-    height: "100%"
+    height: "100%",
+    borderRadius: 100
   },
   infoStudent:{
     marginLeft: 5,

@@ -3,7 +3,8 @@ import { Platform } from "react-native";
 import {firebase} from '../firebase'
 import showNotice from "../help/ShowToast";
 
-const imgPicker = async (setImg) => {
+
+const imgPicker = async (setImg,updateToMysql,{idSV}) => {
 
   let result = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -49,7 +50,8 @@ const imgPicker = async (setImg) => {
       () => {
         uploadTask.snapshot.ref.getDownloadURL().then(async (downloadURL) => {
           await setImg(downloadURL);
-          showNotice('Cập nhật avatar thành công')
+          await updateToMysql({Avatar: downloadURL, idSV: idSV})
+          // showNotice('Cập nhật avatar thành công')
         });
       }
     );

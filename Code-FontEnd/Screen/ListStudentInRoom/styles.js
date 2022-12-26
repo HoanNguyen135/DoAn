@@ -9,9 +9,9 @@ const styles = StyleSheet.create({
   btnAddRoom:{
     position: 'relative',
     marginTop:20,
-    marginLeft: 20,
-    marginBottom:20,
-    width: 100,
+    marginLeft: 10,
+    marginBottom:45,
+    width: 150,
     height: 30,
     backgroundColor: COLORS.logo,
     justifyContent: 'center',
@@ -23,14 +23,39 @@ const styles = StyleSheet.create({
   },
   btnAddStudents:{
     position: 'absolute',
-    right: 20,
+    right: 10,
     top:20,
-    width: 130,
+    width: 150,
     height: 30,
     backgroundColor: COLORS.logo,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5
+  },
+  btnEditRoom:{
+    position: 'absolute',
+    right: 10,
+    top:60,
+    width: 150,
+    height: 30,
+    backgroundColor: COLORS.red,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5
+  },
+  btnGoInfrastructure:{
+    position: 'absolute',
+    left: 10,
+    top:60,
+    width: 150,
+    height: 30,
+    backgroundColor: COLORS.red,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5
+  },
+  textEditRoom:{
+    color: COLORS.white
   }
 });
 

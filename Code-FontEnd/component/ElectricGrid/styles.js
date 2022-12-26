@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
   },
   layoutTextHeader:{
-    color: COLORS.logo
+    color: COLORS.logo,
   }
 });
 

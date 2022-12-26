@@ -17,8 +17,6 @@ let updateUser = async (req, res) => {
 
   const [[rows]] = await pool.execute("SELECT * FROM users WHERE Id=?",[Id]);
 
-  console.log(rows)
-
   return res.status(200).json({
     message: "Cập nhật thành công",
     data: rows

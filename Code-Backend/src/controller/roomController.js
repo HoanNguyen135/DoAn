@@ -13,40 +13,57 @@ let getListRoom = async (req, res) => {
   });
 };
 
-// let updateArea = async (req, res) => {
-//   let { NameArea, Status, Date_created, Describe, Id } = req.body;
 
-//   await pool.execute(
-//     "update area set TenKhu=?, Mota=?, NgayTao=?, TrangThai=? WHERE idKhu=?",
-//     [NameArea, Status, Date_created, Describe, Id]
-//   );
+let createRoom = async (req, res) => {
+  let { Describe, NameRoom, Status, Date_created,idKhu,NumberLimit,Floor } = req.body;
 
-//   const [[rows]] = await pool.execute("SELECT * FROM area WHERE idKhu=?", [Id]);
+  await pool.execute(
+    "insert into room (MoTa, TenPhong, TrangThai,NgayTao,idKhu,SoLuong,Tang) values (?,?,?,?,?,?,?)",
+    [Describe, NameRoom, Status, Date_created,idKhu,NumberLimit,Floor]
+  );
 
-//   console.log(rows);
+  const [rows] = await pool.execute("SELECT * FROM room WHERE idKhu=? and Tang=?", [idKhu,Floor]);
 
-//   return res.status(200).json({
-//     message: "Cập nhật khu thành công",
-//     data: rows,
-//   });
-// };
+  return res.status(200).json({
+    message: "Tạo phòng thành công",
+    data: rows
+  });
+};
 
-// let createArea = async (req, res) => {
-//   let { Describe, NameArea, Status, Date_created } = req.body;
+let updateRoom = async (req, res) => {
+  let { Describe, NameRoom, Status, Date_created,NumberLimit,Floor,idPhong,idKhu } = req.body;
 
-//   await pool.execute(
-//     "insert into area (MoTa, TenKhu, TrangThai,NgayTao) values (?,?,?,?)",
-//     [Describe, NameArea, Status, Date_created]
-//   );
+  await pool.execute(
+    "update room set TenPhong=?, Mota=?, NgayTao=?, TrangThai=? ,SoLuong=?,Tang=?  WHERE idPhong=?",
+    [NameRoom, Describe, Date_created, Status,NumberLimit, Floor,idPhong]
+  );
 
-//   const [[rows]] = await pool.execute("SELECT * FROM area WHERE TenKhu=?", [NameArea]);
+  const [rows] = await pool.execute("SELECT * FROM room WHERE idKhu=? AND Tang=?", [idKhu,Floor]);
 
-//   return res.status(200).json({
-//     message: "Tạo khu thành công",
-//     data: rows
-//   });
-// };
+
+  return res.status(200).json({
+    message: "Cập nhật phòng thành công",
+    data: rows,
+  });
+};
+
+let deleteRoom = async (req, res) => {
+  const { idPhong,idKhu,Floor} = req.body;
+
+  await pool.execute("delete from room where idPhong = ?", [idPhong])
+
+  const [rows] = await pool.execute("SELECT * FROM room WHERE idKhu=? AND Tang=?", [idKhu,Floor]);
+
+  return res.status(200).json({
+    message: "Xóa phòng thành công",
+    data: rows
+  });
+};
+
 
 module.exports = {
     getListRoom,
+    createRoom,
+    updateRoom,
+    deleteRoom
 };

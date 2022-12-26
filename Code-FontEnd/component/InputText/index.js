@@ -3,7 +3,14 @@ import React from "react";
 import { Controller } from "react-hook-form";
 import styles from "./styles";
 
-const InputText = ({ control, inputName, placehorder, rules = {}, data }) => {
+const InputText = ({
+  control,
+  inputName,
+  placehorder,
+  rules = {},
+  data,
+  editable,
+}) => {
   let nameLabel;
 
   switch (inputName) {
@@ -12,6 +19,9 @@ const InputText = ({ control, inputName, placehorder, rules = {}, data }) => {
       break;
     case "Password":
       nameLabel = "Mật khẩu";
+      break;
+    case "Level":
+      nameLabel = "Mức độ vi phạm";
       break;
     case "Position":
       nameLabel = "Chức vụ";
@@ -25,6 +35,12 @@ const InputText = ({ control, inputName, placehorder, rules = {}, data }) => {
     case "NameArea":
       nameLabel = "Tên Khu";
       break;
+    case "NameRoom":
+      nameLabel = "Tên Phòng";
+      break;
+    case "NumberLimit":
+      nameLabel = "Số lượng người";
+      break;
     case "Describe":
       nameLabel = "Mô tả";
       break;
@@ -36,6 +52,7 @@ const InputText = ({ control, inputName, placehorder, rules = {}, data }) => {
       break;
     case "MSV":
       nameLabel = "Mã sinh viên";
+      break;
     case "Birthday":
       nameLabel = "Ngày sinh";
       break;
@@ -78,9 +95,58 @@ const InputText = ({ control, inputName, placehorder, rules = {}, data }) => {
     case "Email_Parent":
       nameLabel = "Email phụ huynh";
       break;
+    case "NumberPhone_Parent":
+      nameLabel = "Số điện thoại phụ huynh";
+      break;
     case "CCCD":
       nameLabel = "CCCD/CMND";
       break;
+    case "Floor":
+      nameLabel = "Tên tầng";
+      break;
+    case "Entity":
+      nameLabel = "Đối tượng ưu tiên";
+      break;
+    case "ContentViolent":
+      nameLabel = "Nội dung vi phạm";
+      break;
+    case "Room":
+      nameLabel = "Phòng";
+      break;
+    case "OldNumber":
+      nameLabel = "Số cũ";
+      break;
+    case "NewNumber":
+      nameLabel = "Số mới";
+      break;
+    case "NewNumberWater":
+      nameLabel = "Số nước mới";
+      break;
+    case "NewNumberElectric":
+      nameLabel = "Số điện mới";
+      break;
+    case "SumMoney":
+      nameLabel = "Tổng tiền";
+      break;
+    case "NameInfrastructure":
+      nameLabel = "Tên cơ sở vật chất";
+      break;
+    case "NumberGood":
+      nameLabel = "Số lượng còn tốt";
+      break;
+    case "NumberBad":
+      nameLabel = "Số lượng đã hỏng";
+      break;
+    case "Number":
+      nameLabel = "Số lượng";
+      break;
+    case "Price":
+      nameLabel = "Giá tiền";
+      break;
+    case "ContentRepair":
+      nameLabel = "Nội dung sửa chữa";
+      break;
+
     default:
       nameLabel = inputName;
       break;
@@ -114,6 +180,7 @@ const InputText = ({ control, inputName, placehorder, rules = {}, data }) => {
                   borderColor: error ? "red" : "orange",
                 },
               ]}
+              editable={editable}
             />
           </View>
           {error && (

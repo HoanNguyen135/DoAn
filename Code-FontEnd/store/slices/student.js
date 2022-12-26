@@ -35,7 +35,7 @@ export const fetchUpdateInfoStudent = createAsyncThunk(
       PhoneNumber_Mother,
       Email_Parent,
       PhoneNumber,
-      idSV
+      idSV,
     } = data;
 
     const response = await StudentService.updateStudent({
@@ -56,12 +56,60 @@ export const fetchUpdateInfoStudent = createAsyncThunk(
       PhoneNumber_Mother,
       Email_Parent,
       PhoneNumber,
-      idSV
+      idSV,
     });
     return response.data;
-
   }
 );
+
+export const fetchUpdateAvatar = createAsyncThunk(
+  "student/fetchUpdateAvatar",
+  async (data, thunkAPI) => {
+    const { Avatar, idSV } = data;
+
+    const response = await StudentService.updateAvatar({
+      Avatar,
+      idSV,
+    });
+    return response.data;
+  }
+);
+
+export const fetchRemoveStudentInRoom = createAsyncThunk(
+  "student/fetchRemoveStudentInRoom",
+  async (data, thunkAPI) => {
+    const { idSV } = data;
+
+    const response = await StudentService.removeStudentInRoom({
+      idSV,
+    });
+    return response.data;
+  }
+);
+
+export const fetchAddStudentInRoom = createAsyncThunk(
+  "student/fetchAddStudentInRoom",
+  async (data, thunkAPI) => {
+    const { MSV, Email,idRoom,idArea } = data;
+
+    const response = await StudentService.addStudentInRoom({
+      MSV, Email,idRoom,idArea
+    });
+    return response.data;
+  }
+);
+
+
+export const fetchAddStudentInRoomToFile = createAsyncThunk(
+  "student/fetchAddStudentInRoomToFile",
+  async (data, thunkAPI) => {
+    const response = await StudentService.addStudentInRoomToFile({
+      data: data.data
+    });
+    return response.data;
+  }
+);
+
 
 const studentSlice = createSlice({
   name: "Student",
@@ -85,15 +133,63 @@ const studentSlice = createSlice({
       })
 
       .addCase(fetchUpdateInfoStudent.fulfilled, (state, action) => {
-        showNotice('Cập nhật thông tin thành công')
-        return{
+        showNotice("Cập nhật thông tin thành công");
+        return {
           ...state,
-          update: action.payload.data
-        }
+          update: action.payload.data,
+        };
       })
       .addCase(fetchUpdateInfoStudent.rejected, (state, action) => {
         console.log(action.error.message);
-      });
+      })
+
+      .addCase(fetchUpdateAvatar.fulfilled, (state, action) => {
+        showNotice("Cập nhật ảnh đại diện thành công");
+        return {
+          ...state,
+          update: action.payload.data,
+        };
+      })
+      .addCase(fetchUpdateAvatar.rejected, (state, action) => {
+        console.log(action.error.message);
+      })
+
+      .addCase(fetchRemoveStudentInRoom.fulfilled, (state, action) => {
+        showNotice("Xóa sinh viên khỏi phòng thành công");
+        return {
+          ...state,
+          update: action.payload.data,
+        };
+      })
+      .addCase(fetchRemoveStudentInRoom.rejected, (state, action) => {
+        console.log(action.error.message);
+      })
+
+      .addCase(fetchAddStudentInRoom.fulfilled, (state, action) => {
+        if(action.payload.data.length >0){
+          showNotice("Thêm sinh viên thành công vào phòng");
+        return {
+          ...state,
+          update: action.payload.data,
+        }
+        }else{
+          showNotice("Không tồn tại dữ liệu hồ sơ sinh viên",'danger')
+        }
+      })
+      .addCase(fetchAddStudentInRoom.rejected, (state, action) => {
+        console.log(action.error.message);
+      })
+
+      .addCase(fetchAddStudentInRoomToFile.fulfilled, (state, action) => {
+        showNotice("Thêm thành công danh sách sinh viên");
+        return {
+          ...state,
+          update: action.payload.data,
+        };
+      })
+      .addCase(fetchAddStudentInRoomToFile.rejected, (state, action) => {
+        console.log(action.error.message);
+      })
   },
 });
 

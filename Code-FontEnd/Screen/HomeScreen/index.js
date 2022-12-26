@@ -17,6 +17,20 @@ const HomeScreen = () => {
     navigation.navigate("AreaStackScreen");
   };
 
+  const handleGoToViolation = () => {
+    navigation.navigate("ViolationStackScreen");
+  };
+
+  const handleGoElectricAndWater = () => {
+    navigation.navigate("ElecAndWaterStackScreen");
+  };
+
+  const handleGoRepair = () => {
+    navigation.navigate("RepairStackScreen");
+  };
+
+  //ApplicationStackScreen
+
   return (
     <View style={styles.container}>
       <Text style={styles.textHelloName}>Xin chào Hoan Nguyễn</Text>
@@ -26,22 +40,28 @@ const HomeScreen = () => {
           <Text style={styles.textRoom}>Khu vực</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.boxEDW}>
+      <TouchableOpacity
+        style={styles.boxEDW}
+        onPress={handleGoElectricAndWater}
+      >
         <View style={styles.infoRoom}>
           <Ionicons name="water-outline" size={30} color="black" />
           <Text style={styles.textRoom}>Điện nước</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.boxBreakLaw}>
+      <TouchableOpacity
+        style={styles.boxBreakLaw}
+        onPress={handleGoToViolation}
+      >
         <View style={styles.infoRoom}>
           <AntDesign name="warning" size={30} color="black" />
           <Text style={styles.textRoom}>Vi phạm</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.boxBreakThing}>
+      <TouchableOpacity style={styles.boxBreakThing} onPress={handleGoRepair}>
         <View style={styles.infoRoom}>
           <MaterialIcons name="dangerous" size={30} color="black" />
-          <Text style={styles.textRoom}>Hỏng hóc</Text>
+          <Text style={styles.textRoom}>Sửa chữa</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity style={styles.boxUser} onPress={handleGoManageUser}>

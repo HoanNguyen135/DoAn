@@ -11,6 +11,7 @@ import ElecAndWaterStackScreen from "./ElecAndWaterNavigation";
 import AreaStackScreen from "./AreaNavigation";
 import FilterStackScreen from "./FilterNavigation";
 import RegisterAccountScreen from "../Screen";
+import ViolationStackScreen from "./ViolationNavigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -90,11 +91,11 @@ const MyTabs = () => {
           options={{ title: "Khu vực" }}
         />
 
-        <Tab.Screen
+        {/* <Tab.Screen
           name="WaterAndElectric"
           component={ElecAndWaterStackScreen}
           options={{ title: "Điện nước" }}
-        />
+        /> */}
       </Tab.Navigator>
     );
   } else {

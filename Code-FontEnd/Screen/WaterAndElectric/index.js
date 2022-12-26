@@ -1,58 +1,94 @@
-import { View, Text, FlatList } from "react-native";
-import React from "react";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
 import styles from "./styles";
 import { FontAwesome } from "@expo/vector-icons";
-import { ElectricGrid,WaterGrid } from "../../component";
-import { ScrollView } from 'react-native-virtualized-view'
-
-const data = [
-  {
-    id: "1",
-  },
-  {
-    id: "2",
-  },
-  {
-    id: "3",
-  },
-  {
-    id: "4",
-  },
-  {
-    id: "5",
-  },
-];
-
-const data1 = [
-  {
-    name: "11",
-  },
-  {
-    name: "12",
-  },
-  {
-    name: "13",
-  },
-  {
-    name: "14",
-  },
-  {
-    name: "15",
-  },
-];
+import { ElectricGrid, WaterGrid } from "../../component";
+import { ScrollView } from "react-native-virtualized-view";
+import { useRoute } from "@react-navigation/native";
+import { COLORS } from "../../contains";
+import { MaterialIcons } from "@expo/vector-icons";
+import ModalDropdown from "react-native-modal-dropdown";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchNumberPage } from "../../store/slices/electricandwater";
+import { fetchListElectricAndWater } from "../../store/slices/electricandwater";
+import { useNavigation } from "@react-navigation/native";
 
 const WaterAndElectric = () => {
-  const showElectricGrid = () => {
-    return <ElectricGrid />;
+
+
+  const navigation = useNavigation();
+  const route = useRoute();
+  const dispatch = useDispatch();
+
+  const idKhu = route.params.data.idKhu
+
+
+  const dataElecAndWaterInPage = useSelector(
+    (states) => states.ElectricWater.listElecWater
+  );
+
+  const update = useSelector(
+    (states) => states.ElectricWater.update
+  );
+
+
+  const [page, setPage] = useState();
+
+  const handleSelect = (index, value) => {
+    setPage(value);
   };
 
-  const showWaterGrid = () => {
-    return <WaterGrid />;
+  const [arrPage, setArrPage] = useState([]);
+
+  useEffect(() => {
+    dispatch(fetchNumberPage()).then((res) => {
+      setArrPage(res.payload.data);
+      setPage(res.payload.data[0]);
+    });
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchListElectricAndWater({ current_page: page,idKhu}));
+  }, [page,update]);
+
+
+  const showElectricGrid = ({item}) => {
+    return <ElectricGrid data={item}/>;
   };
+
+  const showWaterGrid = ({item}) => {
+    return <WaterGrid data={item}/>;
+  };
+
+
+  const handleBackPage = () => {
+    if(page <= 1){
+
+    }else{
+      setPage(page -1 )
+    }
+  }
+
+  const handleNextPage = () => {
+    if(page < arrPage.length){
+      setPage(Number(page) + 1 )
+    }else{
+    }
+  }
+
+  const handleAdd = () => {
+    navigation.navigate('AddElectricAndWaterScreen',{idKhu})
+  }
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: COLORS.background }}>
+      <TouchableOpacity style={styles.btnAdd} onPress={handleAdd}>
+        <Text style={{ color: COLORS.white, fontSize: 13 }}>
+          Thêm tiền điện nước
+        </Text>
+      </TouchableOpacity>
       <View style={styles.container}>
+        <Text style={styles.txtContent}>Bảng tiền điện</Text>
         <View style={styles.layout}>
           <View style={styles.layoutTitle}>
             <View style={styles.column}>
@@ -62,15 +98,18 @@ const WaterAndElectric = () => {
               <Text style={styles.layoutTextHeader}>Phòng</Text>
             </View>
             <View style={styles.column}>
-              <Text style={styles.layoutTextHeader}>CS đầu</Text>
+              <Text style={styles.layoutTextHeader}>Số cữ</Text>
             </View>
             <View style={styles.column}>
-              <Text style={styles.layoutTextHeader}>CS cuối</Text>
+              <Text style={styles.layoutTextHeader}>Số mới</Text>
             </View>
             <View style={styles.column}>
               <Text style={[styles.layoutTextHeader, { fontSize: 13.8 }]}>
                 Tổng tiền
               </Text>
+            </View>
+            <View style={styles.column}>
+              <Text style={styles.layoutTextHeader}>Đã nộp</Text>
             </View>
             <View style={[styles.column, styles.boxIcon]}>
               <View style={styles.column}>
@@ -79,13 +118,14 @@ const WaterAndElectric = () => {
             </View>
           </View>
           <FlatList
-            listKey={(item) => item.id.toString()}
+            listKey={(item) => item.idDienNuoc.toString()}
             renderItem={showElectricGrid}
-            data={data}
+            data={dataElecAndWaterInPage}
           />
         </View>
       </View>
       <View style={styles.container}>
+        <Text style={styles.txtContent}>Bảng tiền điện</Text>
         <View style={styles.layout}>
           <View style={styles.layoutTitle}>
             <View style={styles.column}>
@@ -95,28 +135,55 @@ const WaterAndElectric = () => {
               <Text style={styles.layoutTextHeader}>Phòng</Text>
             </View>
             <View style={styles.column}>
-              <Text style={styles.layoutTextHeader}>CS đầu</Text>
+              <Text style={styles.layoutTextHeader}>Số cũ</Text>
             </View>
             <View style={styles.column}>
-              <Text style={styles.layoutTextHeader}>CS cuối</Text>
+              <Text style={styles.layoutTextHeader}>Số mới</Text>
             </View>
             <View style={styles.column}>
               <Text style={[styles.layoutTextHeader, { fontSize: 13.8 }]}>
                 Tổng tiền
               </Text>
             </View>
-            <View style={[styles.column, styles.boxIcon]}>
+            <View style={styles.column}>
+              <Text style={styles.layoutTextHeader}>Đã nộp</Text>
+            </View>
+            <View style={[styles.column, styles.boxIcon]}>  
               <View style={styles.column}>
                 <Text style={styles.layoutTextHeader}>HĐ</Text>
               </View>
             </View>
           </View>
           <FlatList
-            listKey={(item) => item.name.toString()}
+            listKey={(item) => item.idDienNuoc.toString()}
             renderItem={showWaterGrid}
-            data={data1}
+            data={dataElecAndWaterInPage}
           />
         </View>
+      </View>
+      <View
+        style={{
+          marginTop: 10,
+          flexDirection: "row",
+          marginLeft: 250,
+          marginBottom: 10,
+          justifyContent: 'space-evenly'
+        }}
+      >
+        <ModalDropdown
+          options={arrPage}
+          style={styles.modelDrop}
+          onSelect={(index, value) => handleSelect(index, value)}
+        >
+          <Text>{page}</Text>
+        </ModalDropdown>
+        <Text style={{ fontSize: 15 }}>{page} of {arrPage.length}</Text>
+        <TouchableOpacity onPress={handleBackPage}>
+          <MaterialIcons name="navigate-before" size={24} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleNextPage}>
+          <MaterialIcons name="navigate-next" size={24} color="black" />
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );

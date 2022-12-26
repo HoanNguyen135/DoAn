@@ -59,15 +59,21 @@ const userSlice = createSlice({
   initialState: {
     user: {},
     listUser: [],
-    update: []
+    update: [],
   },
   reducers: {
+    logout: (state, action) => {
+      return {
+        ...state,
+        user: {},
+      };
+    },
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder
       .addCase(fetchCreateAccount.fulfilled, (state, action) => {
-        showNotice('Đăng ký tài khoản thành công')
+        showNotice("Đăng ký tài khoản thành công");
       })
       .addCase(fetchCreateAccount.rejected, (state, action) => {
         console.log(action.error.message);
@@ -75,7 +81,10 @@ const userSlice = createSlice({
       .addCase(fetchUserLogin.fulfilled, (state, action) => {
         if (action.payload.message === "Đăng nhập thành công") {
           showNotice(action.payload.message);
-          state.user = action.payload.data;
+          return {
+            ...state,
+            user: action.payload.data,
+          };
         } else {
           showNotice(action.payload.message, true);
         }
@@ -94,15 +103,15 @@ const userSlice = createSlice({
         console.log(action.error.message);
       })
 
-    .addCase(fetchUpdateUser.fulfilled, (state, action) => {
-      showNotice('Cập nhật tài khoản thành công')
-      state.update = action.payload.data
-    })
-    .addCase(fetchUpdateUser.rejected, (state, action) => {
-      console.log(action.error.message);
-    });
+      .addCase(fetchUpdateUser.fulfilled, (state, action) => {
+        showNotice("Cập nhật tài khoản thành công");
+        state.update = action.payload.data;
+      })
+      .addCase(fetchUpdateUser.rejected, (state, action) => {
+        console.log(action.error.message);
+      });
   },
 });
 
-export const {checkUpdate} = userSlice.actions;
+export const { checkUpdate,logout } = userSlice.actions;
 export default userSlice.reducer;

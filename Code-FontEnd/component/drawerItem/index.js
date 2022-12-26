@@ -3,9 +3,13 @@ import React from "react";
 import { DrawerItem } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { logout } from "../../store/slices/user";
+import { useSelector, useDispatch } from "react-redux";
+
 
 const DrawerItemComponent = ({ name, setFocus, focus }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   let icon, title;
 
@@ -22,8 +26,16 @@ const DrawerItemComponent = ({ name, setFocus, focus }) => {
       icon = focus == name ? "settings" : "settings-outline";
       title = "Cài đặt";
       break;
-    case "Logout":
-      icon = focus == name ? "settings" : "settings-outline";
+    case "ApplicationStackScreen":
+      icon = focus == name ? "ios-list" : "ios-list-outline";
+      title = "Danh sách đơn đăng ký";
+      break;
+    case "ListInfrastructureScreen":
+      icon = focus == name ? "bulb" : "bulb-outline";
+      title = "Quản lý cơ sở vật chất";
+      break;
+    case "LogOut":
+      icon = focus == name ? "log-in" : "log-in-outline";
       title = "Đăng xuất";
       break;
     default:
@@ -38,8 +50,12 @@ const DrawerItemComponent = ({ name, setFocus, focus }) => {
       focused={focus == name ? true : false}
       label={title}
       onPress={() => {
-        setFocus(name);
-        navigation.navigate('HomeScreen');
+        if (name !== "LogOut") {
+          setFocus(name);
+          navigation.navigate(name);
+        } else {
+          dispatch(logout());
+        }
       }}
     />
   );

@@ -1,11 +1,20 @@
-import { View, Text, Button, Image, TouchableOpacity ,KeyboardAvoidingView,ScrollView} from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  Button,
+  Image,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "react-native";
+import React, { useEffect } from "react";
 import { InputText } from "../../component";
 import { useForm } from "react-hook-form";
 import styles from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { fetchUserLogin } from "../../store/slices/user";
+
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -17,17 +26,22 @@ const LoginScreen = () => {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    navigation.closeDrawer();
+  });
+
   const handleLogin = (data) => {
-    dispatch(fetchUserLogin({Username: data.Username,Password: data.Password}))
+    dispatch(
+      fetchUserLogin({ Username: data.Username, Password: data.Password })
+    );
   };
 
   const handleRegister = () => {
-    navigation.navigate('RegisterAccountScreen')
+    navigation.navigate("RegisterAccountScreen");
   };
 
-
   return (
-    <ScrollView  style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.boxLogo}>
         <Image
           style={styles.imgLogo}
@@ -54,8 +68,6 @@ const LoginScreen = () => {
         <Text style={styles.textLogin}>Đăng nhập</Text>
       </TouchableOpacity>
       <View style={styles.btnRegister}>
-        
-        
         <TouchableOpacity onPress={handleRegister}>
           <Text style={styles.textRegister}>Đăng ký tài khoản</Text>
         </TouchableOpacity>

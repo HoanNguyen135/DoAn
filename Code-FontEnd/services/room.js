@@ -1,13 +1,13 @@
 import { api } from ".";
 
 const RoomService = {
-//   createArea({
-//     NameArea, Describe, Status, Date_created
-//   } = {}) {
-//     return api.call().post("/create-new-area", {
-//       NameArea, Describe, Status, Date_created
-//     });
-//   },
+  createRoom({
+    Describe, NameRoom, Status, Date_created,idKhu,NumberLimit,Floor
+  } = {}) {
+    return api.call().post("/createRoom", {
+      Describe, NameRoom, Status, Date_created,idKhu,NumberLimit,Floor
+    });
+  },
 
   getListRoom({idArea,floor}={}) {
     return api.call().get(`/getListRoom/${idArea}/${floor}`,{
@@ -18,15 +18,17 @@ const RoomService = {
     });
   },
 
-//   updateArea({ Id, NameArea, Status, Date_created, Describe } = {}) {
-//     return api.call().put("/update-area", {
-//       Id,
-//       NameArea,
-//       Status,
-//       Date_created,
-//       Describe,
-//     });
-//   },
+  updateRoom({ Describe, NameRoom, Status, Date_created,NumberLimit,Floor,idPhong,idKhu } = {}) {
+    return api.call().put("/updateRoom", {
+      Describe, NameRoom, Status, Date_created,NumberLimit,Floor,idPhong,idKhu
+    });
+  },
+
+  deleteRoom({ idPhong,idKhu,Floor } = {}) {
+    return api.call().post("/deleteRoom", {
+      idPhong,idKhu,Floor
+    });
+  },
 };
 
 export default RoomService;

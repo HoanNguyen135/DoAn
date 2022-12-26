@@ -7,6 +7,7 @@ import {
   AreaScreen,
   RegisterAccountScreen,
   ListUserScreen,
+  ListApplicationDorm
 } from "./Screen";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Navigation from "./Navigation/HomeNavigation";

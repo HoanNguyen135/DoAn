@@ -7,48 +7,11 @@ import { Room } from "../../component";
 import { useRoute } from "@react-navigation/native";
 import { fetchListRoom } from "../../store/slices/room";
 import { useSelector, useDispatch } from "react-redux";
-
-const data = [
-  {
-    id: 1,
-  },
-  {
-    id: 2,
-  },
-  {
-    id: 3,
-  },
-  {
-    id: 4,
-  },
-  {
-    id: 5,
-  },
-  {
-    id: 6,
-  },
-  {
-    id: 7,
-  },
-  {
-    id: 8,
-  },
-  {
-    id: 9,
-  },
-  {
-    id: 10,
-  },
-  {
-    id: 11,
-  },
-  {
-    id: 12,
-  },
-];
+import { useNavigation } from "@react-navigation/native";
 
 const Rooms = () => {
   
+  const navigation = useNavigation();
   const route = useRoute();
   const dispatch = useDispatch();
   const dataArea = route.params.data;
@@ -58,8 +21,10 @@ const Rooms = () => {
   const [loading, setLoading] = useState(true)
 
 
-  useEffect(() => {
-    
+  const update = useSelector((states) => states.Room.update);
+
+
+  useEffect(() => {  
     dispatch(fetchListRoom({data: {floor,idArea: dataArea.idKhu}}))
     .then((res) => {
       if (!res.error) {
@@ -67,34 +32,38 @@ const Rooms = () => {
         setDataRoom(res.payload.data);
       }
     });
-  }, [])
+  }, [floor,update])
 
   const handleChangeValue = (a) => {
     setFloor(a);
-    alert(a);
   };
 
   const renderRoom = ({item}) => {
     return <Room data={item}/>;
   };
 
+
+  const handleAddRoom = () => {
+    navigation.navigate('CreateRoomScreen',{idArea: dataArea.idKhu,floor: floor })
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.boxRoom}>
         <Picker
-          style={{ width: 180,height: 30,justifyContent: 'center' }}
+          style={{ width: 120,height: 30,justifyContent: 'center',alignItems: 'center' }}
           selectedValue={floor}
           onValueChange={(itemValue, itemIndex) => handleChangeValue(itemValue)}
           mode={"dropdown"}
         >
-          <Picker.Item label="Tầng 1" value="Tầng 1" />
-          <Picker.Item label="Tầng 2" value="Tầng 2" />
-          <Picker.Item label="Tầng 3" value="Tầng 3" />
+          <Picker.Item style={{width: 120}} label="Tầng 1" value="Tầng 1" />
+          <Picker.Item style={{width: 120}} label="Tầng 2" value="Tầng 2" />
+          <Picker.Item style={{width: 120}} label="Tầng 3" value="Tầng 3" />
         </Picker>
         <View style={styles.boxIconHome}>
           <Ionicons name="home-outline" size={16} color="black" />
         </View>
-        <TouchableOpacity style={styles.btnAddRoom}>
+        <TouchableOpacity style={styles.btnAddRoom} onPress={handleAddRoom}>
           <Text style={styles.textAddRoom}>Thêm</Text>
         </TouchableOpacity>
       </View>

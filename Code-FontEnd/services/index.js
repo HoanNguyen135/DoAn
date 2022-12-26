@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseURL = 'http://192.168.81.101:8080/api'
+const baseURL = 'http://192.168.81.104:8080/api'
 
 
 export const api = {

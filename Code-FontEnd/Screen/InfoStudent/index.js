@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
-import React,{useState} from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./styles";
 import { Zocial } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,34 +10,48 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import { imgPicker } from "../../libs";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUpdateAvatar } from "../../store/slices/student";
 
 const InfoStudent = () => {
-
   const navigation = useNavigation();
 
   const route = useRoute();
+  const dispatch = useDispatch();
 
-  const data = route.params.data
+  const data = route.params.data;
 
-  const [img, setImg] = useState('https://firebasestorage.googleapis.com/v0/b/rn-dorm.appspot.com/o/images%2Favatar.png?alt=media&token=9eedad78-452f-4a65-b296-cb051f032692')
+  const [img, setImg] = useState(data.AnhDaiDien);
 
   const handleUpdateInfoStudent = () => {
-    navigation.navigate('UpdateInfoStudentScreen',{data})
-  }
+    navigation.navigate("UpdateInfoStudentScreen", { data });
+  };
 
-  const handleUpdateAvatar = () => {
-    imgPicker((image)=>setImg(image))
-  }
+  const handleUpdateAvatar = async () => {
+    try {
+      imgPicker(
+        (image) => setImg(image),
+        (Avatar, idSV) => updateToMysql(Avatar, idSV),
+        { idSV: data.idSV }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateToMysql = ({ Avatar, idSV }) => {
+    dispatch(fetchUpdateAvatar({ Avatar, idSV }));
+  };
 
   return (
     <ScrollView style={styles.container}>
       <TouchableOpacity style={styles.boxAvatar} onPress={handleUpdateAvatar}>
-        <Image
-          style={styles.imgAvatar}
-          source={{uri: img}}
-        />
+        <Image style={styles.imgAvatar} source={{ uri: img }} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.btnEdit} onPress={handleUpdateInfoStudent}>
+      <TouchableOpacity
+        style={styles.btnEdit}
+        onPress={handleUpdateInfoStudent}
+      >
         <Text style={styles.textEdit}>Sửa thông tin</Text>
       </TouchableOpacity>
       <View style={styles.boxInfoPersonal}>
@@ -152,7 +166,9 @@ const InfoStudent = () => {
       </View>
       <View style={styles.boxBreakRule}>
         <TouchableOpacity style={styles.sentBreakRule}>
-          <Text style={styles.textSentBreakRule} numberOfLines={1}>Gửi thông báo vi phạm cho phụ huynh</Text>
+          <Text style={styles.textSentBreakRule} numberOfLines={1}>
+            Gửi thông báo vi phạm cho phụ huynh
+          </Text>
         </TouchableOpacity>
         <View style={styles.row}>
           <View style={[styles.boxIcon]}>
